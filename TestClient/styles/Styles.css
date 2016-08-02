@@ -1,0 +1,45 @@
+﻿body
+{
+	color: Black;
+	background-color: White;
+}
+
+select,
+select option
+{
+	text-align:center;
+}
+
+.code
+{
+	color:Maroon;
+	font-style:italic;
+}
+
+hr
+{
+	height:1px;
+	border:0px;
+	color: Gray;
+	background-color: Gray;
+}
+
+.lab
+{
+	border: 1px solid Gray;
+	background-color:White;
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+}
+
+.lab td
+{
+	padding:8px;
+}
+
+#tabs
+{
+	min-height:850;
+}
+

@@ -1,0 +1,137 @@
+﻿<html>
+<head>
+		<title>Test</title>
+		<link href="styles/theme/theme.css" rel="stylesheet" type="text/css" />
+		<link href="styles/styles.css" rel="stylesheet" type="text/css" />
+		<script src="scripts/jquery-1.7.2.min.js" type="text/javascript"></script>
+		<script src="scripts/jquery.unobtrusive-ajax.min.js" type="text/javascript"></script>
+		<script src="scripts/jquery-ui-1.8.20.custom.min.js" type="text/javascript"></script>
+		<script src="scripts/TestClient.js" type="text/javascript"></script>
+</head>
+
+<body>
+
+<div id="tabs">
+<ul>
+		<li><a href="#tabs-1">URL Requests</a></li>
+		<li><a href="#tabs-2">Performance</a></li>
+		<li><a href="#tabs-3">About</a></li>
+	</ul>
+
+	<div id="tabs-1">
+
+		<p>
+			Type in any any request below, or pick one up from the list of samples. All these requests map to controller/action implemented within <i>TestServer</i>.
+		</p>
+
+		<p class="ui-widget">
+			<label for="requests">Query: </label>
+			<input id="requests" style="width:500px;" />
+			<button id="submit">Submit</button>
+		</p>
+
+	<div id="result" style="height:400px;border:1px solid Grey;overflow:auto;background-color:White;"></div>
+
+		<p>
+			In order to implement a page that uses our <i>TestServer</i>, we had to set its filter to the form of <c>data/*/*</c>, so that it does not activate when the request is for <i>Index.html</i>.
+			To that end, each request for <i>TestServer</i> sent from this page is prepended with <c>data/</c>. Because of this a request from such page cannot demonstrate how <c>SimpleRouter</c>
+			can handle prefix segments. You can only see how prefix segments are handled by debugging <i>TestServer</i>, and sending it direct requests from the browser.
+		</p>
+
+	</div>
+
+	<div id="tabs-2">
+	<p>
+	This test uses a time-out loop to issue asynchronous Ajax requests to get the current date/time from <i>TestServer</i>, and produce the basic statistics.
+	</p>
+	<p>
+	Below is the list of performance figures ordered by their relevance during the test:
+	</p>
+	<ul>
+		<li>On the local PC</li>
+			<ol>
+				<li>Performance of Ajax and the browser that executes it - more than 99.9% of all time.</li>
+				<li>Performance of <i>TestServer</i> in providing the response - always less than 0.1% of all time.</li>
+			</ol>
+		<li>Hosted on a server in the internet</li>
+			<ol>
+				<li>Hosting server performance + your own internet speed. Only when real fast it then depends on Item 2.</li>
+				<li>Performance of Ajax and the browser that executes it. Relevance depends on Item 1.</li>
+				<li>Performance of <i>TestServer</i> in providing the response - always less than 0.1% of all time.</li>
+			</ol>
+	</ul>
+	
+	<hr>
+
+		<p>
+	Calls per second:&nbsp; 
+	<select id="speed">
+		<option value="1">1</option>
+		<option value="2">2</option>
+		<option value="5">5</option>
+		<option value="10">10</option>
+		<option value="25">25</option>
+		<option value="50">About 50</option>
+		<option value="100">About 100</option>
+		<option value="1000">Maximum</option>
+	</select>
+	</p>
+
+		<table class="lab">
+			<tr><td>
+			Total number of calls made:</td><td><b id="calls"></b></td><td style="text-align:right;"><button id="reset" title="Reset the Total and Average">&nbsp;Reset&nbsp;</button></td></tr>
+			<tr>
+			<td>
+				Average call delay in milliseconds:</td><td colspan="2"><b id="average"></b></td></tr>
+		<tr><td>
+			Text returned from the request:</td><td colspan="2"><b id="time"></b></td>
+			</tr>
+		</table>
+
+	<p>
+	Each transaction in this test consists of the following steps:
+	<ol>
+		<li>A new time-out is set using function <c>setTimeout</c>, according to parameter <i>Calls per second</i></li>
+		<li>When the time-out is reached, we take start reading of the current time and issue the Ajax request.</li>
+			<ul>
+				<li>Request <c>data/simple/time</c> gets the current time from the <i>TestServer</i>, where <c>data/</c>
+						is a filter segment to prevent calling <c>HttpFilter</c> when opening page <i>Index.html</i></li>
+				<li>We append current time to each request to guarantee that each request is sent out, i.e. none cached by the browser.</li>
+				<li>Nothing else happens during the asynchronous request, which on a local PC takes at least 99.9% of the whole transaction time.</li>
+			</ul>
+
+		<li>Once the Ajax call is complete, we take the current time reading and calculate the average, plus the total.</li>
+		<li>We set up another <c>setTimeout</c> to continue the loop.</li>
+	</ol>
+	</p>
+
+	</div>
+	<div id="tabs-3">
+		<p>
+			This demo application was designed to accompany article <a href="http://www.codeproject.com/Articles/380098/Basic-Routing-for-HttpHandler" target="_blank">Basic Routing for HttpHandler</a>.
+			It offers a simple example of using class <c>SimpleRouter</c> through even simpler <i>TestServer</i>.
+		</p>
+
+		<p>
+			The demo was built with help of jQuery 1.7.2 and jQuery UI 1.8.20
+		</p>
+
+		<p>
+			Thank you for checking out this demo ;)
+		</p>
+
+		<p>
+			And if you have any questions, please publish them in the <i>Comments</i> section of the <a href="http://www.codeproject.com/Articles/380098/Basic-Routing-for-HttpHandler" target="_blank">article</a>.
+		</p>
+
+		<p>
+			Regards,<br/>
+			Vitaly Tomilov<br/>
+			<a href="mailto:vitaly.tomilov@gmail.com">vitaly.tomilov@gmail.com</a>
+		</p>
+
+	</div>
+</div>
+
+</body>
+</html>
